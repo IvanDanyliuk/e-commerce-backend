@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema(
       default: false,
     },
   }, 
-  { timeseries: true }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model('User', UserSchema);
