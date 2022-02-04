@@ -52,18 +52,22 @@ router.get('/', async (req,res) => {
   const queryCategory = req.query.category;
   try {
     let products;
+    let colors;
     if(queryNew) {
       products = await Product.find().sort({ createdAt: -1 }).limit(5);
+      colors = [...new Set(products.map(product => product.color).flat())];
     } else if(queryCategory) {
       products = await Product.find({ 
         categories: {
           $in: [queryCategory],
         },
       });
+      colors = [...new Set(products.map(product => product.color).flat())];
     } else {
       products = await Product.find();
+      colors = [...new Set(products.map(product => product.color).flat())];
     }
-    res.status(200).json(products);
+    res.status(200).json({products, colors});
   } catch (error) {
     res.status(500).json(error);
   }
